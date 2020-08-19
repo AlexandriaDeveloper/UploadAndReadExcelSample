@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "E:\\Projects\\SampleExcelFileUpload\\UploadAndReadExcelSample\\API\\API.csproj": {}
+    "E:\\Projects\\SampleExcelFileUpload\\UploadAndReadExcelSample\\api\\API.csproj": {}
   },
   "projects": {
-    "E:\\Projects\\SampleExcelFileUpload\\UploadAndReadExcelSample\\API\\API.csproj": {
+    "E:\\Projects\\SampleExcelFileUpload\\UploadAndReadExcelSample\\api\\API.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "E:\\Projects\\SampleExcelFileUpload\\UploadAndReadExcelSample\\API\\API.csproj",
+        "projectUniqueName": "E:\\Projects\\SampleExcelFileUpload\\UploadAndReadExcelSample\\api\\API.csproj",
         "projectName": "API",
-        "projectPath": "E:\\Projects\\SampleExcelFileUpload\\UploadAndReadExcelSample\\API\\API.csproj",
+        "projectPath": "E:\\Projects\\SampleExcelFileUpload\\UploadAndReadExcelSample\\api\\API.csproj",
         "packagesPath": "C:\\Users\\Seagull-PC\\.nuget\\packages\\",
-        "outputPath": "E:\\Projects\\SampleExcelFileUpload\\UploadAndReadExcelSample\\API\\obj\\",
+        "outputPath": "E:\\Projects\\SampleExcelFileUpload\\UploadAndReadExcelSample\\api\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Seagull-PC\\AppData\\Roaming\\NuGet\\NuGet.Config"

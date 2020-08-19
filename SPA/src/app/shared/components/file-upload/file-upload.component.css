@@ -1,0 +1,13 @@
+.my-drop-zone {
+  margin: 20px;
+  height: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.my-drop-zone :hover {
+  background-color: green;
+}
+.nv-file-over {
+  background-color: green;
+}
