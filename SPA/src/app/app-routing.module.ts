@@ -1,14 +1,17 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { FileUploadComponent } from './shared/components/file-upload/file-upload.component';
-import { HomeModule } from './modules/home/home.module';
 const routes: Routes = [
-  { path: '', component: FileUploadComponent },
+  { path: '', redirectTo: 'home', pathMatch: 'full' },
   {
     path: 'home',
     loadChildren: () =>
       import('./modules/home/home.module').then((m) => m.HomeModule),
+  },
+  {
+    path: 'products',
+    loadChildren: () =>
+      import('./modules/product/product.module').then((m) => m.ProductModule),
   },
 ];
 
