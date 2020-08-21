@@ -1,7 +1,10 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { Component, OnInit, ViewChild, Inject } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { UploadService } from 'src/app/shared/service/upload.service';
-import { forkJoin } from 'rxjs';
+import { forkJoin, fromEvent } from 'rxjs';
+import { MatBottomSheet } from '@angular/material/bottom-sheet';
+import { ExcelBottomSheetComponent } from './../excel-bottom-sheet/excel-bottom-sheet.component';
 
 @Component({
   selector: 'app-dialog',
@@ -21,7 +24,9 @@ export class DialogComponent implements OnInit {
   public files: Set<File> = new Set();
   constructor(
     public dialogRef: MatDialogRef<DialogComponent>,
-    public uploadService: UploadService
+    private _bottomSheet: MatBottomSheet,
+    public uploadService: UploadService,
+    @Inject(MAT_DIALOG_DATA) public data: any
   ) {}
 
   ngOnInit(): void {}
@@ -30,16 +35,24 @@ export class DialogComponent implements OnInit {
     const files: { [key: string]: File } = this.file.nativeElement.files;
     for (let key in files) {
       if (!isNaN(parseInt(key))) {
-        this.files.add(files[key]);
+        this.files[0] = files[key];
+        this.uploadFile();
       }
     }
+
+    //open bottonsheet here
   }
 
   addFiles() {
     this.file.nativeElement.click();
+    //  this.uploadFile();
   }
 
   closeDialog() {
+    this.dialogRef.close();
+  }
+
+  uploadFile() {
     // if everything was uploaded already, just close the dialog
     if (this.uploadSuccessful) {
       return this.dialogRef.close();
@@ -49,22 +62,19 @@ export class DialogComponent implements OnInit {
     this.uploading = true;
 
     // start the upload and save the progress map
-    this.progress = this.uploadService.upload(this.files);
 
+    this.progress = this.uploadService.upload(this.files, this.data.url);
+
+    // tslint:disable-next-line: forin
     for (const key in this.progress) {
-      this.progress[key].progress.subscribe(
-        (val) => {
-          console.log(val);
-        },
-        (err) => {
-          console.log('error here ');
-        },
-        () => {}
-      );
+      this.progress[key].progress.subscribe((val) => {
+        console.log(val);
+      });
     }
 
     // convert the progress map into an array
-    let allProgressObservables = [];
+    const allProgressObservables = [];
+    // tslint:disable-next-line: forin
     for (let key in this.progress) {
       allProgressObservables.push(this.progress[key].progress);
     }
@@ -75,7 +85,7 @@ export class DialogComponent implements OnInit {
     this.primaryButtonText = 'Finish';
 
     // The dialog should not be closed while uploading
-    this.canBeClosed = false;
+    this.canBeClosed = true;
     this.dialogRef.disableClose = true;
 
     // Hide the cancel-button
@@ -93,11 +103,16 @@ export class DialogComponent implements OnInit {
 
         // ... and the component is no longer uploading
         this.uploading = false;
-        console.log(end);
       },
       (err) => {
         console.log(err), () => {};
+      },
+      () => {
+        this.openBottomSheet();
       }
     );
+  }
+  openBottomSheet(): void {
+    this._bottomSheet.open(ExcelBottomSheetComponent, { data: {} });
   }
 }
